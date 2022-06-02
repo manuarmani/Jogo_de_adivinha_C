@@ -1,52 +1,52 @@
-# Prerequisites
-*.d
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
-# Object files
-*.o
-*.ko
-*.obj
-*.elf
+#define NUMERO_DE_TENTATIVAS 3
 
-# Linker output
-*.ilk
-*.map
-*.exp
+int main() {
+    printf("************************************\n");
+    printf("* Bem vindo ao Jogo de AdivinhaÃ§Ã£o *\n");
+    printf("************************************\n");
 
-# Precompiled Headers
-*.gch
-*.pch
+    int chute;
+    int acertou = 0;
+    int tentativas = 1;
+    double pontos = 1000;
 
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
+    srand(time(0));
+    int numerosecreto = rand() % 100;
 
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
+    while(!acertou) {
 
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
+        printf("Qual Ã© o seu %do. chute? ", tentativas);
+        scanf("%d", &chute);
 
-# Debug files
-*.dSYM/
-*.su
-*.idb
-*.pdb
+        if(chute < 0) {
+            printf("VocÃª nÃ£o pode chutar nÃºmeros negativos\n");
+            continue;
+        }
 
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
+        printf("Seu %do. chute foi %d\n", tentativas, chute);
+
+        acertou = chute == numerosecreto;
+        int maior = chute > numerosecreto;
+
+        if(acertou) {
+            printf("ParabÃ©ns! VocÃª acertou!\n");
+        } else if(maior) {
+            printf("Seu chute foi maior do que o nÃºmero secreto!\n");
+        } else {
+            printf("Seu chute foi menor do que o nÃºmero secreto!\n");
+        }
+
+        tentativas++;
+
+        double pontosperdidos = abs(chute - numerosecreto) / 2.0;
+        pontos = pontos - pontosperdidos;
+    }
+
+    printf("VocÃª fez %.2f pontos", pontos);
+    printf("Obrigado por jogar!\n");
+
+}
